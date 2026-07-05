@@ -1,22 +1,53 @@
 body{
-    font-family:Arial;
-    background:#222;
+    font-family: Arial;
+    background:#111827;
     color:white;
     text-align:center;
     margin-top:50px;
 }
 
+.container{
+    margin-bottom:20px;
+}
+
 input{
     padding:10px;
     width:250px;
+    border-radius:6px;
+    border:none;
 }
 
 button{
-    padding:10px 20px;
+    padding:10px 15px;
+    border:none;
+    background:#38bdf8;
+    color:white;
+    border-radius:6px;
     cursor:pointer;
 }
 
-li{
-    margin:10px;
+ul{
     list-style:none;
+    padding:0;
+}
+
+li{
+    background:#1f2937;
+    margin:10px auto;
+    padding:10px;
+    width:300px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:8px;
+}
+
+.done{
+    text-decoration:line-through;
+    opacity:0.6;
+}
+
+.btn{
+    margin-left:5px;
+    cursor:pointer;
 }
