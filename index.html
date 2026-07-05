@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-do App</title>
+    <title>To-do App 2.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>To-do Lista</h1>
+<h1>To-do App 2.0</h1>
 
-<input id="task" type="text" placeholder="Új feladat">
+<div class="container">
+    <input id="taskInput" type="text" placeholder="Új feladat...">
+    <button onclick="addTask()">Hozzáadás</button>
+</div>
 
-<button onclick="addTask()">
-Hozzáadás
-</button>
-
-<ul id="list"></ul>
+<ul id="taskList"></ul>
 
 <script src="script.js"></script>
 
