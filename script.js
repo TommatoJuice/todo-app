@@ -1,50 +1,237 @@
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-function saveTasks(){
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    renderTasks();
+let currentFilter="all";
+
+
+function save(){
+
+localStorage.setItem(
+"tasks",
+JSON.stringify(tasks)
+);
+
 }
+
+
 
 function addTask(){
-    let input = document.getElementById("taskInput");
-    let text = input.value.trim();
 
-    if(text === "") return;
+let text=document.getElementById("taskInput").value;
 
-    tasks.push({
-        text: text,
-        done: false
-    });
+let date=document.getElementById("dateInput").value;
 
-    input.value = "";
-    saveTasks();
+let priority=document.getElementById("priorityInput").value;
+
+
+if(text===""){
+alert("Írj be egy feladatot!");
+return;
 }
 
-function deleteTask(index){
-    tasks.splice(index, 1);
-    saveTasks();
+
+tasks.push({
+
+id:Date.now(),
+
+text:text,
+
+date:date,
+
+priority:priority,
+
+done:false
+
+});
+
+
+save();
+
+render();
+
+
+document.getElementById("taskInput").value="";
+
 }
 
-function toggleTask(index){
-    tasks[index].done = !tasks[index].done;
-    saveTasks();
+
+
+function render(){
+
+let list=document.getElementById("taskList");
+
+list.innerHTML="";
+
+
+let filtered=tasks.filter(task=>{
+
+
+if(currentFilter==="active")
+return !task.done;
+
+
+if(currentFilter==="done")
+return task.done;
+
+
+return true;
+
+
+});
+
+
+
+filtered.forEach(task=>{
+
+
+let li=document.createElement("li");
+
+li.className=
+"task "+
+(task.done?"done ":"")+
+task.priority.toLowerCase();
+
+
+
+li.innerHTML=`
+
+<div>
+
+<b>${task.text}</b>
+
+<br>
+
+📅 ${task.date || "Nincs dátum"}
+
+</div>
+
+
+<div class="actions">
+
+
+<button onclick="toggle(${task.id})">
+✔
+</button>
+
+
+<button onclick="editTask(${task.id})">
+✏️
+</button>
+
+
+<button onclick="deleteTask(${task.id})">
+🗑
+</button>
+
+
+</div>
+
+`;
+
+
+list.appendChild(li);
+
+
+});
+
+
 }
 
-function renderTasks(){
-    let list = document.getElementById("taskList");
-    list.innerHTML = "";
 
-    tasks.forEach((task, index) => {
-        list.innerHTML += `
-            <li class="${task.done ? 'done' : ''}">
-                <span onclick="toggleTask(${index})">${task.text}</span>
 
-                <div>
-                    <button class="btn" onclick="deleteTask(${index})">❌</button>
-                </div>
-            </li>
-        `;
-    });
+
+function toggle(id){
+
+let task=tasks.find(t=>t.id===id);
+
+task.done=!task.done;
+
+save();
+
+render();
+
 }
 
-renderTasks();
+
+
+function deleteTask(id){
+
+tasks=
+tasks.filter(t=>t.id!==id);
+
+save();
+
+render();
+
+}
+
+
+
+function editTask(id){
+
+let task=tasks.find(t=>t.id===id);
+
+
+let newText=
+prompt(
+"Új név:",
+task.text
+);
+
+
+if(newText){
+
+task.text=newText;
+
+save();
+
+render();
+
+}
+
+}
+
+
+
+function filterTasks(type){
+
+currentFilter=type;
+
+render();
+
+}
+
+
+
+function searchTasks(){
+
+let value=
+document
+.getElementById("search")
+.value
+.toLowerCase();
+
+
+
+document
+.querySelectorAll(".task")
+.forEach(task=>{
+
+
+if(task.innerText.toLowerCase().includes(value))
+
+task.style.display="flex";
+
+
+else
+
+task.style.display="none";
+
+
+});
+
+
+}
+
+
+
+render();
